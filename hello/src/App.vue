@@ -1,4 +1,116 @@
-@charset "UTF-8";
+<template>
+  <body>
+    <CommonHeader></CommonHeader>
+    <main>
+      <div class="mission">
+        <div class="mission-content">
+          <h2 class="mission_title">
+            お客様のために進化する成長企業であり続ける
+          </h2>
+          <p class="mission_text">
+            顧客主導型サービスを提供する企業として、お客様の会社経営に必要なサービスと情報を提供し続ける企業支援会社を目指します。企業が現在直面している「勝ち残るため」の戦略を提供できる会社として、ホームページをはじめ、各種マーケティングをご提供いたします。
+          </p>
+          <a href="" class="common-btn mission-btn">ミッション詳細</a>
+        </div>
+        <div class="mission-img">
+          <img src="./assets/img/mission-img.jpg" alt="" />
+        </div>
+      </div>
+      <div class="service" v-for="(data,index) in list" :key="index">
+        <h2 class="service-title section-title">service</h2>
+        <div class="service-content">
+          <div class="service-img">
+            <img src="./assets/img/service2.jpg" alt="" />
+          </div>
+          <div class="service-content_inner">
+            <h3 class="mgb-15">{{data.title}}</h3>
+            <p class="mgb-15">{{data.contain}}</p>
+            <p class="mgb-15">{{data.section}}</p>
+            <a href="" class="common-btn service-btn">サービス詳細</a>
+          </div>
+        </div>
+        <div class="service-content">
+          <div class="service-img service-img_second">
+            <img src="./assets/img/service1.jpg" alt="" />
+          </div>
+          <div class="service-content_inner service-content_inner-second">
+            <h3 class="mgb-15">{{data.title}}</h3>
+            <p class="mgb-15">{{data.contain}}</p>
+            <p class="mgb-15">{{data.section}}</p>
+            <a href="" class="common-btn service-btn">サービス詳細</a>
+          </div>
+        </div>
+      </div>
+      <div class="company">
+        <div class="recruit-company flex">
+          <div class="recruit-company_size company-img" v-for="(data,index) in company" :key="index">
+            <h2 class="company-title section-title">
+              {{data.title}}<br /><span>{{data.section}}</span>
+            </h2>
+          </div>
+          <div class="recruit-company_size recruit-img" v-for="(data,index) in recruit" :key="index">
+            <h2 class="company-title section-title">
+              {{data.title}}<br /><span>{{data.section}}</span>
+            </h2>
+          </div>
+        </div>
+      </div>
+      <div class="faq">
+        <h2 class="faq-title">FAQ</h2>
+        <p class="faq-title-jp">良くある質問</p>
+      </div>
+      <div class="contact">
+        <h2 class="contact-title section-title">
+          contact<br /><span>お問い合わせ</span>
+        </h2>
+        <p class="contact-subtitle section-title">
+          お気軽にお問い合わせください。
+        </p>
+        <p class="contact-text">
+          資料請求・お問い合わせなどなんでも気軽にお問い合わせください。お仕事のご連絡もお問い合わせページに飛んでいただいて、入力フォームにご記入お願いいたします。
+        </p>
+        <a href="" class="common-btn contact-btn">お問い合わせへ</a>
+      </div>
+      <CommonFooter></CommonFooter>
+    </main>
+  </body>
+</template>
+
+<script>
+import CommonHeader from "./components/CommonHeader";
+import CommonFooter from "./components/CommonFooter";
+export default{
+  data(){
+    return{
+      list:[
+        {
+          title:"web制作事業",
+          contain:"コーチングのミッション",
+          section:"ユーザーが求める物を分析し、ユーザビリティを備えた最適なサイトを提供。建設業から美容、ブライダル、飲食店まで多種多様な業種の制作実績があります"
+        }
+      ],
+      company:[
+        {
+          title:"company",
+          section:"会社概要"
+        }
+      ],
+      recruit:[
+        {
+          title:"recruit",
+          section:"採用情報"
+        }
+      ]
+    };
+  },
+  components:{
+    CommonHeader,
+    CommonFooter
+  }
+};
+</script>
+
+<style>
 
 /*
 html5doctor.com Reset Stylesheet
@@ -169,20 +281,20 @@ hr {
   padding: 0;
 }
 
+
+
 input,
 select {
   vertical-align: middle;
 }
 
-/*------------------------*/
-/*   　　共通のスタイル      */
-/*------------------------*/
+
 html {
   height: 100%;
 }
 
 a {
-  color: #333333;
+  
   text-decoration: none;
 }
 
@@ -257,7 +369,7 @@ body {
 
 #firstview {
   height: 100%;
-  background: url(../img/eyecatch.jpg) no-repeat;
+  background: url("./assets/img/eyecatch.jpg") no-repeat;
   background-size: cover;
   background-position: center;
   position: relative;
@@ -399,11 +511,11 @@ body {
 }
 
 .company-img {
-  background: url(../img/company.jpeg) center/cover no-repeat;
+  background: url("./assets/img/company.jpeg") center/cover no-repeat;
 }
 
 .recruit-img {
-  background: url(../img/recruit.jpg) center/cover no-repeat;
+  background: url("./assets/img/recruit.jpg") center/cover no-repeat;
 }
 
 .company-title {
@@ -450,7 +562,7 @@ body {
 /*        contact         */
 /*------------------------*/
 .contact {
-  background: url(../img/contact-bg.jpg) center/cover no-repeat;
+  background: url("./assets/img/contact-bg.jpg") center/cover no-repeat;
   padding: 10%;
 }
 
@@ -475,101 +587,102 @@ body {
   color: #fff;
 }
 
-.footer-bar {
-  height: 70px;
-  line-height: 70px;
-}
-
-.top-footer {
-  background: #000;
-  text-align: center;
-}
-
-.top-footer small {
-  text-align: center;
-  color: #fff;
-}
-
-@media screen and (max-width: 768px) {
-  #hamburger {
-    width: 40px;
-    height: 40px;
-    position: absolute;
-    cursor: pointer;
-    z-index: 100;
-    top: 15px;
-    right: 20px;
-    transition: 0.4s;
-  }
-  #hamburger span {
-    position: absolute;
-    left: 2px;
-    display: block;
-    width: 35px;
-    height: 2px;
-    background-color: #fff;
-    transition: 0.8s;
-  }
-  #hamburger span:nth-of-type(1) {
-    top: 10px;
-  }
-  #hamburger span:nth-of-type(2) {
-    top: 20px;
-  }
-  #hamburger span:nth-of-type(3) {
-    top: 30px;
-  }
+@media screen and (max-width: 768px){
   .header-nav {
     display: none;
   }
 
-  /* ここを追加 */
-  #hamburger.active span:nth-of-type(1) {
-    top: 20px;
-    transform: rotate(45deg);
-  }
-
-  #hamburger.active span:nth-of-type(2) {
-    opacity: 0;
-  }
-  #hamburger.active span:nth-of-type(3) {
-    top: 20px;
-    transform: rotate(-45deg);
-  }
-  .menu-content {
-    display: block;
-    width: calc(100% - 80px);
-    height: 100%;
-    text-align: center;
-    transition: 0.2s;
-    position: fixed;
-    top: 0;
-    left: calc(-100% - 80px);
-    background: #fff;
-    color: #333333;
-    box-shadow: 80px 0 rgba(38, 98, 213, 0.3);
-    z-index: 999;
-  }
-  .menu-content .menu-title {
-    margin: 40px 20px;
-    font-size: 2.2rem;
-    color: #333333;
-    text-align: left;
-    font-weight: bold;
-  }
-  .menu-content li a {
-    color: #333333;
-    margin: 15px;
-    padding: 5px;
-    border-bottom: 0.5px solid #2662d5;
-    text-decoration: none;
-    display: block;
-  }
-  .menu-content li {
-    width: 100%;
-    text-align: left;
-  }
-  .menu-content.open {
-    left: 0;
-  }
+.catchcopy {
+  position: absolute;
+  text-align:center;
+  width:90%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
+
+.news{
+    width:100%;
+  }
+.mission{
+  padding-bottom:5%;
+}
+.mission-content{
+  width:80%;
+  padding:0;
+  margin:0 auto;
+}
+.mission_title{
+  font-size:150%;
+  width:80%;
+   margin:0 auto;
+   padding:10% 0;
+}
+.mission_text{
+  font-size:80%;
+  width:80%;
+  margin:0 auto;
+}
+
+.mission-btn{
+  width:40%;
+  margin:10%;
+}
+
+.service-content_inner,
+.service-img{
+  width:90%;
+  display:block;
+  margin:0 auto;
+}
+
+.service-content {
+  flex-wrap:wrap;
+  padding-bottom: 15%;
+}
+
+.service-img_second {
+  margin: 0 50% 0 0;
+  margin:0 auto;
+}
+
+.service-content_inner {
+  position: relative;
+  left:0;
+  right:0;
+  background: #fff;
+  padding: 5% 5%;
+  box-sizing: border-box;
+}
+
+.service-content_inner-second {
+  left: 0;
+}
+
+.recruit-company_size {
+  width: 100%;
+}
+.faq {
+  width: 65%;
+  background: #000;
+}
+
+
+.faq-title {
+  width: 20%;
+}
+
+.faq-title-jp {
+  width: 60%;
+  text-align: center;
+}
+
+
+.footer-logo{
+  margin:0 auto;
+}
+
+  
+}
+
+</style>
