@@ -3,43 +3,43 @@
     <img class="header-img" src="../assets/store.png" />
     <h2 class="header-title">RESE</h2>
     <div class="right text-area">
-      <li v-if="$store.state.auth" key="auth" class="menu" :class="menu">
-        <ul class="moble-ul">
+      <li v-if="state_auth" key="auth" class="menu" :class="menu">
+        <ul class="moble-ul left">
           <a @click="$router.push({path: '/'}, () => {})">
-              店舗<br class="mobile-show">
-              一覧
+          店舗<br class="mobile-show">
+          一覧
           </a>
         </ul>
-        <ul class="moble-ul">
+        <ul class="moble-ul ber">
           <a @click="$router.push({path: '/mypage'}, () => {})">
-            マイ<br class="mobile-show">
-            ページ
+          マイ<br class="mobile-show">
+          ページ
           </a>
         </ul>
-        <ul class="moble-ul">
+        <ul class="moble-ul ber">
           <a @click="logout">
-            ログ<br class="mobile-show">
-            アウト
+          ログ<br class="mobile-show">
+          アウト
           </a>
         </ul>
       </li>
       <li v-else key="auth" class="menu" :class="menu">
         <ul>
           <a @click="$router.push({path: '/'}, () => {})">
-            店舗<br class="mobile-show">
-            一覧
+          店舗<br class="mobile-show">
+          一覧
           </a>
         </ul>
         <ul>
           <a @click="$router.push({path: '/register'}, () => {})">
-            会員<br class="mobile-show">
-            登録
+          会員<br class="mobile-show">
+          登録
           </a>
         </ul>
         <ul>
           <a @click="$router.push({path: '/login'}, () => {})">
-            ログ<br class="mobile-show">
-            イン
+          ログ<br class="mobile-show">
+          イン
           </a>
         </ul>
       </li>
@@ -52,7 +52,39 @@
   </div>
 </template>
 
+<script>
+export default{
+  data() {
+    return {
+      logo:"",
+      menu:"",
+      hamburger: "",
+      state_auth:true,
+    };
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch('logout');
+      router.replace("/");
+    },
+    hamburgerOpen(){
+      if(this.hamburger == "hamburger"){
+        this.logo = "no-logo";
+        this.menu = "menu-open";
+        this.hamburger = "hamburger-close";
+      }else{
+        this.logo = "";
+        this.menu = "";
+        this.hamburger = "hamburger";
+      }
+    }
+  }
+};
+</script>
+
+
 <style scoped>
+
 .header {
   display: flex;
   height: 70px;
@@ -64,13 +96,20 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background-color: white;
+  height: 50px;
+  width:450px;
+  border: solid 2px black;
+  border-radius: 10px;
+  text-align: center;
 }
+
 .header-img {
   width: 30px;
   height: 30px;
   margin: 0 20px 0 0;
 }
-.logo {
+.header-title {
   font-size: 25px;
   font-weight: bold;
   color: white;
@@ -78,7 +117,20 @@
   cursor: default;
 }
 .right {
-  text-align: left;
+  margin-left:auto;
+}
+.moble-ul{
+	list-style-type:none;
+	margin-right:6px;
+	border-left:1px solid black;
+  margin-left: 30px;
+}
+.left{
+  border-left:0;
+	padding-left:0;
+}
+.ber{
+  padding-left: 30px;
 }
 .menu {
   display: flex;
@@ -207,3 +259,4 @@
   }
 }
 </style>
+
