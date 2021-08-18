@@ -1,4 +1,3 @@
-
 <template>
   <div id="app">
     <div class="header">
@@ -12,7 +11,12 @@
               店舗一覧
               </a>
             </li>
-            <li class="moble-ul ber">
+            <li class="moble-ul ber" v-if="$store.state.administrator" >
+              <a @click="$router.push({path: '/admin'}, () => {})">
+              管理者専用
+              </a>
+            </li>
+            <li class="moble-ul ber" v-else>
               <a @click="$router.push({path: '/mypage'}, () => {})">
               マイページ
               </a>
@@ -58,7 +62,6 @@ export default{
     return {
       logo:"",
       menu:"",
-      hamburger: "",
       active :false,
     };
   },
@@ -67,10 +70,9 @@ export default{
       this.$store.dispatch('logout');
       $router.replace("/");
     },
-    hamburger(){
+    hamburger() {
       this.active = !this.active
     },
-
   }
 };
 </script>
@@ -123,6 +125,9 @@ export default{
 .left {
   border-left: 0;
   padding-left: 0;
+}
+.admin{
+  width:600px;
 }
 .ber {
   padding-left: 30px;

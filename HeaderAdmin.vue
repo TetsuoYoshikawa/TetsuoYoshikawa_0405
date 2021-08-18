@@ -5,10 +5,15 @@
       <h2 class="header-title" @click="$router.push({path: '/'}, () => {})">RESE</h2>
       <div class="right text-area">
         <nav class="nav" id="nav" :class="{in:active}">
-          <ul class="menu" :class="menu">
+          <ul class="menu" >
             <li class="moble-ul left">
-              <a @click="$router.push({path: '/RestaurantListAdmin'}, () => {})">
+              <a @click="$router.push({path: '/adminList'}, () => {})">
                 店舗一覧
+              </a>
+            </li>
+            <li class="moble-ul ber">
+              <a @click="$router.push({path: '/admincheck'}, () => {})">
+                予約情報
               </a>
             </li>
             <li class="moble-ul ber">
@@ -61,7 +66,7 @@ export default {
   justify-content: space-between;
   background-color: white;
   height: 50px;
-  width: 320px;
+  width: 450px;
   border-radius: 30px;
   text-align: center;
 }
@@ -194,5 +199,4 @@ export default {
     transform: translateX(-100%);
   }
 }
-
 </style>

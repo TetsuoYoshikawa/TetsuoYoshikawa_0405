@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <HeaderAdmin />
     <div class="admin">
       <div class="card right" >
         <div class="card-title" style="display: flex;">
@@ -7,78 +8,71 @@
           <h2 @click="isSelect('2')" v-bind:class="{'active': isActive === '2'}">新規店舗登録</h2>
         </div>
         <div class="restaurant" v-if="isActive === '1'" key="right">
-          <div class="flex">
-            <p >Restaurant Name:</p>
-            <input class="label" v-model="restaurant_name"/>
-            <div class="under-line"></div>
-          </div>
-          <div class="flex">
-            <p>Prefectures:</p>
-            <select v-model="restaurant_prefecture">
-              <option value="">Prefecture select</option>
-              <option v-for="prefecture in prefectures" :key="prefecture.name">{{prefecture.name}}</option>
-            </select>
-            <div class="under-line"></div>
-          </div>
-          <div class="flex">
-            <p>Genres:</p>
-            <select v-model="restaurant_genre">
-              <option value="">Genre select</option>
-              <option v-for="genre in genres" :key="genre.name">{{genre.name}}</option>
-            </select>
-          </div>
-          <div class="flex">
-            <p>Description:</p>
-            <textarea class="label" v-model="restaurant_description"></textarea>
-            <div class="under-line"></div>
-          </div>
-          <div class="flex flex-end">
-            <div>
-              <p>Restaurant Picture:</p>
+          <div>
+            <div class="flex">
+              <p>Change Restaurant:</p>
+              <select v-model="restaurant_id">
+                <option value="">Restaurants ....</option>
+                <option v-for="(restaurant,index) in restaurants" :key="index"
+                :value="restaurant.id">{{restaurant.name}}</option>
+              </select>
             </div>
-            <div class="input-box input-width600 input-width70p input-height32 flex-left">
-              <span></span>
-              <input type="file" id="file" @change="fileSelected" class="input-box-input input-padding file-send" readonly>
+            <div class="flex">
+              <p >Restaurant Name:</p>
+              <input class="label" v-model="restaurant_name"/>
             </div>
+            <div class="flex">
+              <p>Prefectures:</p>
+              <select v-model="prefecture_id">
+                <option value="">Prefecture select</option>
+                <option v-for="(prefecture,index) in prefectures" :key="index" :value="prefecture.id">{{prefecture.name}}</option>
+              </select>
+            </div>
+            <div class="flex">
+              <p>Genres:</p>
+              <select v-model="genre_id">
+                <option value="">Genre select</option>
+                <option v-for="(genre,index) in genres" :key="index" :value="genre.id">{{genre.name}}</option>
+              </select>
+            </div>
+            <div class="flex">
+              <p>Description:</p>
+              <textarea class="label" v-model="restaurant_description"></textarea>
+            </div>
+            <button type="submit" @click="putRestaurant()">店舗情報変更</button>
           </div>
-          <button type="submit" @click=putRestaurant()>店舗情報変更</button>
         </div>
         <div class="restaurant"  v-if="isActive === '2'" key="left">
           <div class="flex">
             <p>Restaurant Name:</p>
             <input class="label" v-model="restaurant_name" />
-            <div class="under-line"></div>
           </div>
           <div class="flex">
             <p>Prefectures:</p>
-            <select v-model="restaurant_prefecture">
+            <select v-model="prefecture_id">
               <option value="">Prefecture select</option>
-              <option v-for="prefecture in prefectures" :key="prefecture.name">{{prefecture.name}}</option>
+              <option v-for="(prefecture,index) in prefectures" :key="index" :value="prefecture.id">{{prefecture.name}}</option>
             </select>
-            <div class="under-line"></div>
           </div>
           <div class="flex">
             <p>Genres:</p>
-            <select v-model="restaurant_genre">
+            <select v-model="genre_id">
               <option value="">Genre select</option>
-              <option v-for="genre in genres" :key="genre.name">{{genre.name}}</option>
+              <option v-for="(genre,index) in genres" :key="index" :value="genre.id">{{genre.name}}</option>
             </select>
           </div>
           <div class="flex">
             <p>Description:</p>
             <textarea class="label" v-model="restaurant_description"></textarea>
-            <div class="under-line"></div>
           </div>
-          <div class="flex flex-end">
-            <div>
-              <p>Restaurant Picture:</p>
-            </div>
-            <div class="input-box input-width600 input-width70p input-height32 flex-left">
-              <span></span>
-              <input type="file" id="file" @change="onFileChange" class="input-box-input input-padding file-send" readonly>
-              <div class="image" v-if="preview">
-                <img :src="preview" />
-              </div>
+          <div class="flex">
+            <p>Restaurant Picture:</p>
+            <select v-model="picture_id">
+              <option value="">Pictures select</option>
+              <option v-for="(picture,index) in pictures" :key="index" :value="picture.image_url">{{picture.name}}</option>
+            </select>
+            <div class="image" v-if="picture_id">
+              <img :src="picture_id"  style="height:150px;width:150px"/>
             </div>
           </div>
           <button type="submit" @click="postRestaurant()">新規店舗登録</button>
@@ -89,26 +83,38 @@
 </template>
 
 <script>
-import Header from "../components/Header.vue";
+import axios from 'axios';
+import HeaderAdmin from "../components/HeaderAdmin.vue";
 export default{
   data() {
     return {
       isActive: '1',
-      preview:null,
+      preview:"",
       restaurant_name: "",
-      restaurant_prefecture: "",
-      restaurant_genre: "",
+      prefecture_id: "",
+      genre_id: "",
+      picture_id:"",
       restaurant_description: "",
+      restaurant_id:"",
+      restaurants:[],
       prefectures: [],
-      genres: []
+      genres: [],
+      pictures:[]
     }
   },
   methods: {
     isSelect(num) {
       this.isActive = num;
     },
-  },
-  /*
+    async getRestaurant(){
+      await axios
+        .get("http://127.0.0.1:8000/api/restaurants")
+        .then((response => {
+          this.restaurants = response.data.data.restaurant;
+        }))
+        .catch(error => {
+          console.log(error)});
+    },
     async getPrefecture(){
       await axios
         .get("http://127.0.0.1:8000/api/prefectures")
@@ -121,83 +127,61 @@ export default{
         .get("http://127.0.0.1:8000/api/genres")
         .then((response) => {
           this.genres = response.data.data;
-        })
-    },
-    async onFileChange(event) {
-      if(event.target.files.lenght === 0){
-        return false
-      }
-      const reader = new FileReader()
-      reader.onload = e => {
-        this.preview = e.target.result
-      }
-      reader.readAsDataURL(event.target.files[0]);
-    },
-    reset() {
-      this.preview = ""
-      this.$el.querySelector('input[type="file"]').value = null
-    },
-    postRestaurant() {
-      const formData = new FormData();
-      formData.append("image_url:this.file");
-      formData.append("id: this.restaurant.id");
-      formData.append("name: this.restaurant_name");
-      formData.append("prefecture_id: this.restaurant_prefecture");
-      formData.append("genre_id: this.restaurant_genre,");
-      formData.append("descriptions: this.restaurant_description,");
-       axios
-        .post('http://127.0.0.1:8000/api/auth/restaurants', formData)
-        .then((response) => {
-        console.log(response);
-        alert('店舗情報を登録いたしました。')
-        })
-        .catch((error) => {
-        console.log(error);
-        alert('予約できません。もう一度、お試しください');
-        });
-    },
-    postImage() {
-      const formData = new FormData();
-      formData.append("image_url:this.file");
-      formData.append("id: this.restaurant.id");
-      axios
-        .post('http://127.0.0.1:8000/api/restaurants/image', formData)
-        .then((response) => {
-          console.log(response);
-          alert('写真を変更いたしました')
+          this.pictures = response.data.data;
         })
     },
     putRestaurant() {
-      axios
-        .put('http://127.0.0.1:8000/api/restaurants', {
-          id: this.restaurant.id,
+       axios
+        .put('http://127.0.0.1:8000/api/auth/admin/restaurants', {
+          id: this.restaurant_id,
           name: this.restaurant_name,
-          prefecture_id: this.restaurant_prefecture,
-          genre_id: this.restaurant_genre,
-          descript: this.restaurant_description
+          prefecture_id: this.prefecture_id,
+          genre_id: this.genre_id,
+          description: this.restaurant_description
+        })
+        .then((response) => {
+        console.log(response);
+        alert('店舗情報を変更いたしました。')
+        })
+        .catch((error) => {
+        console.log(error);
+        alert('店舗登録できませんでした。もう一度、お試しください');
+        });
+    },
+    postRestaurant() {
+      axios
+        .post('http://127.0.0.1:8000/api/auth/admin/restaurants', {
+          name: this.restaurant_name,
+          prefecture_id: this.prefecture_id,
+          genre_id: this.genre_id,
+          image_url: this.picture_id,
+          description:this.restaurant_description
         })
         .then((response) => {
           console.log(response);
-          alert('店舗情報を変更いたしました')
+          alert('店舗情報を追加いたしました')
         })
         .catch((err) => {
           console.log(err);
           alert("更新できませんでした。お手数ですが再度お試しください。");
         })
     },
-    */
+  },
   components:{
-    Header
+    HeaderAdmin
   },
   created(){
+  this.getRestaurant();
   this.getPrefecture();
   this.getGenre();
   },
 }
 </script>
 
-
 <style scoped>
+/*///////////////
+    ページ全体  
+///////////////*/
 .admin{
   text-align: center;
   padding-top:100px;
@@ -210,7 +194,6 @@ export default{
 }
 .card-title{
   background-color: #ff7300;
-  
 }
 .card-title h2 {
   color: white;
@@ -243,10 +226,9 @@ input {
   outline: 0;
   border-bottom: 1px solid #d1d5db;
 }
-.img {
-  width: 20px;
-  height: 20px;
-  padding-right: 20px;
+img {
+  display: inline-block;
+  padding-left: 20px;
 }
 .flex {
   display: flex;
@@ -256,22 +238,14 @@ input {
 }
 .flex p {
   width: 200px;
+  margin-top:18px;
 }
 select{
   width:300px;
+  height:50px;
 }
 .top{
   align-items:initial;
-}
-.left-side{
-  box-sizing: border-box;
-  width: 25%;
-}
-.flex-left{
-  padding-top:15px;
-}
-.input-width600{
-  width: 600px;
 }
 button {
   padding: 10px 20px;
@@ -280,13 +254,5 @@ button {
   border-radius: 10px;
   color: white;
   margin: 30px 0;
-}
-.under-line {
-  width: 200px;
-  height: 2px;
-  background: skyBlue;
-  transform-origin: center center;
-  transform: scaleX(0);
-  transition: transform 0.18s ease-out;
 }
 </style>
