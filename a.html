@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="a.css" />
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+
+
+<body>
+  <div class="top-eyecatch">
+    <h1 class="media__fv-ttl">
+      Portfolio
+      <div class="small">Web Engineer</div>
+    </h1>
+  </div>
+  <div id="app">
+    <div class="about" id="about">
+      <div>
+        <div class="content-title">
+          <h2>ABOUT</h2>
+        </div>
+        <div class="profile flex-2">
+          <div class="profile-img">
+            <p>
+              <?php echo get_avatar(get_the_author('id'), 85); ?>
+            </p>
+          </div>
+          <div class="profile-detail">
+            <ul>
+              <li>名前：吉川　哲生</li>
+              <li>出身：兵庫県</li>
+              <li>特技：ラテアート</li>
+            </ul>
+            <p class="text">
+              はじめまして。平成9年生まれ24歳エンジニアのてつおと申します。大手電機メーカーで、製造課として働いていた経歴があり、ものづくりは昔から大好きです。社内大会で、近畿地方3位まで行き、技術指導者として、東京で勤めたこともあります。モノづくりを通して新しい技術を生み出せればと思いエンジニアになりました。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="skill" id="skill">
+      <div class="content-title">
+        <h1>SKILL</h1>
+      </div>
+      <div class="skill-box flex-2">
+        <div class="skill-card flex-2" v-for="skill in skill" :key="skill.id">
+          <div class="skill-icon">
+            <img src="../assets/HTML.png">
+          </div>
+          <div class="skill-desc">
+            <h3>{{skill.name}}</h3>
+            <div class="rating">
+              <div v-if="skill.skill === 5">
+                <div>★★★★★</div>
+              </div>
+              <div v-else-if="skill.skill === 4">
+                <div>★★★★☆</div>
+              </div>
+              <div v-else-if="skill.skill === 3">
+                <div>★★★☆☆</div>
+              </div>
+              <div v-else-if="skill.skill === 2">
+                <div>★★☆☆☆</div>
+              </div>
+              <div v-else-if="skill.skill === 1">
+                <div>★☆☆☆☆</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="portfolio" id="portfolio">
+      <div class="content-title">
+        <h1>Portfolio</h1>
+      </div>
+      <div class="flex">
+        <div v-for="portfolio in portfolio" :key="portfolio.id">
+          <div class="portfolio-card">
+            <a :href="portfolio.url" class="portfolio-colum">
+              <img :src="portfolio.image" class="portfolio-image">
+              <p class="portfolio-tag">
+                {{portfolio.name}}
+              </p>
+            </a>
+            <div class="portfolio-tags">
+              <div class="portfolio-tags__inner">
+                <p>フロントエンド:HTML,CSS,JavaScript（Vue.js）</p>
+                <p>バックエンド:PHP（Laravel）</p>
+                  <p>作成期間:{{portfolio.created}}</p>
+                  <p>
+                  <a>github:</a>
+                  <a class="github" :href="portfolio.github_front">フロントエンド</a>
+                </p>
+                <p>
+                  <a>github:</a>
+                  <a class="github" :href="portfolio.github_api">バックエンド</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+    
+    <script>
+      const vm = new Vue({
+        el: '#app',
+        data() {
+          return {
+            portfolio:[
+              {
+                id: 1,
+                name: "飲食店予約アプリ",
+                image: "../assets/rese-image.png",
+                github_front: "https://github.com/TetsuoYoshikawa/Rese.git",
+                github_api: "https://github.com/TetsuoYoshikawa/Rese-api.git",
+                created: "2ヶ月",
+                url: "https://rese-site.netlify.app",
+                detail: "仕様書をもとに設計から、開発、テストまでを各利用者(予約利用者用,店舗代表者用,管理者用)に合わせて開発しました。",
+                difficulties: "初めて、一からの開発で、設計が初めてだったので特に苦戦しました。また、ページレイアウトもはじめて考えてだったので時間が掛かってしまった。",
+                solutions: "開発しては修正を繰り返して理解を深めることができ、また設計をしっかりすることで開発が楽になり、作りながら考えるよりも時間短縮になるのでとても大事だと知れました。"
+              },
+              {
+                id:2,
+                name:"LiveSHARE",
+                image: "../assets/liveshare-image.png",
+                github_front : "https://github.com/TetsuoYoshikawa/LiveShare.git",
+                github_api : "https://github.com/TetsuoYoshikawa/LiveShare-api.git",
+                created : "１ヶ月",
+                url : "https://liveshare.netlify.app",
+                detail : "音楽のライブを共有できるSNSを作成いたしました。",
+                difficulties : "友達に使ってもらい、使用者の意見を取り入れながら作成しましたので、どう表現すればいいのかを試行錯誤しました。",
+                solutions : "自分がこれから、使っていけるようなアプリケーションになり、意見を取り入れながら開発する大切さを学べました。"
+              },
+              {
+                id: 3,
+                name: "Portfolio",
+                image: "../assets/portfolio-image.png",
+                github_front: "https://github.com/TetsuoYoshikawa/portfolio.git",
+                github_api: "https://github.com/TetsuoYoshikawa/portfolio-api.git",
+                created: "5日",
+                url: "https://Tesuo-Yoshikawa-portfolio.netlify.app",
+                detail: "制作物をまとめるために作成しました。",
+              },
+            ],
+            skill:[
+              {
+                id:1,
+                name:"HTML",
+                skill:5
+              },
+              {
+                id:2,
+                name:"CSS",
+                skill:5
+              },
+              {
+                id:3,
+                name:"Vue.js/JavaScript",
+                skill:4
+              },
+              {
+                id:4,
+                name:"Laravel/PHP",
+                skill:4
+              },
+              {
+                id:5,
+                name:"github",
+                skill:3
+              },
+              {
+                  id:6,
+                  name:"MySQL",
+                  skill:3
+              },
+              {
+                id: 7,
+                name: "AWS(s3)",
+                skill: 3
+              },
+              {
+                id: 8,
+                name: "Heroku",
+                skill: 3
+              },
+              {
+                id: 9,
+                name: "Netlify",
+                skill: 3
+              },
+            ]
+          }
+        },
+        methods: {
+         favorite(index) {
+            const result = this.shares[index].favorite.some((value) => {
+              return value.user_id == this.$store.state.user_id;
+            });
+            if (result) {
+              this.shares[index].favorite.forEach((element) => {
+                if (element.user_id == this.$store.state.user_id) {
+                  axios
+                    .delete("http://127.0.0.1:8000/api/favorite", {
+                      data: {
+                        share_id: this.shares[index].share.id,
+                        user_id: this.$store.state.user_id,
+                      }
+                    })
+                    .then((response) => {
+                      console.log(response);
+                      this.$router.go({
+                        path: this.$router.currentRoute.path,
+                        force: true,
+                      });
+                    });
+                }
+              });
+            } else {
+              axios
+                .post('http://127.0.0.1:8000/api/favorite', {
+                  share_id: this.shares[index].share.id,
+                  user_id: this.$store.state.user_id
+                })
+                .then((response) => {
+                  console.log(response);
+                  this.$router.go({
+                    path: this.$router.currentRoute.path,
+                    force: true,
+                  });
+                });
+            }
+          },
+          deleteShare() {
+            axios
+              .delete("http://127.0.0.1:8000/api/share/" + this.shareData.id)
+              .then((response) => {
+                console.log(response);
+                this.$router.go({
+                  path: this.$router.currentRoute.path,
+                  force: true,
+                });
+              });
+          },
+          deleteWant(index) {
+            this.shares[index].want.forEach((element) => {
+              if (element.user_id == this.$store.state.user_id) {
+                axios
+                  .delete('http://127.0.0.1:8000/api/want', {
+                    data: {
+                      user_id: this.$store.state.user_id,
+                      share_id: this.shares[index].share.id,
+                    }
+                  })
+                  .then((response) => {
+                    console.log(response);
+                    this.$router.go({
+                      path: this.$router.currentRoute.path,
+                      force: true,
+                    })
+                  })
+              }
+            }
+            )
+          },
+          want(index) {
+            axios
+              .post('http://127.0.0.1:8000/api/want', {
+                user_id: this.$store.state.user_id,
+                share_id: this.shares[index].share.id,
+              })
+              .then((response) => {
+                console.log(response);
+                this.$router.go({
+                  path: this.$router.currentRoute.path,
+                  force: true,
+                })
+              })
+              .catch((error) => {
+                console.log(error)
+              })
+          },
+          async getShares() {
+            let data = [];
+            const shares = await axios
+              .get('http://127.0.0.1:8000/api/share');
+            for (let i = 0; i < shares.data.data.length; i++) {
+              await axios
+                .get('http://127.0.0.1:8000/api/share/' + shares.data.data[i].id)
+                .then((response) => {
+                  data.push(response.data);
+                });
+            }
+            this.shares = data;
+            console.log(this.shares);
+          }
+        },
+        created() {
+          this.getShares();
+        },
+        computed: {
+          skills(){
+
+          },
+          isWant() {
+            return function (want) {
+              console.log(want);
+              if (want.length === 0) {
+                return false
+              } else {
+                const result = want.some((want) => {
+                  return want.user_id === this.id
+                }, this)
+                return result
+              }
+            }
+          }
+        }
+      })
+    </script>
+</body>
+
+</html>
